@@ -1,4 +1,4 @@
-const dino = document.querySelector(".dino");
+const dino = document.querySelector(".dino"); 
 const backGround = document.querySelector('.back_ground');
 const score = document.querySelector('.score');
 let isJumping = false;
@@ -6,7 +6,10 @@ let position = 0;
 let gameOver = false;
 let speed = 50;
 
+//adicona o evento de keyup que recebe a tecla pressionada pelo usaurio
+document.addEventListener('keyup', keyUpHandler);
 
+//função responsavel por aumentar a pontução até chegar ao fim de jogo
 let scoreInterval = setInterval(() => {
     if(gameOver){
        clearInterval(scoreInterval); 
@@ -16,6 +19,7 @@ let scoreInterval = setInterval(() => {
     }
 }, 30);
 
+//função que aumenta velocidade dos cactus gradativamente até um limite de 10
 let speedInterval = setInterval(() => {
     if(gameOver || speed < 10){
        clearInterval(speedInterval); 
@@ -25,7 +29,7 @@ let speedInterval = setInterval(() => {
 }, 1000);
 
 
-
+//função responsavel por verificar a tecla pressionada e chamar jump casa a mesma seja espaço
 function keyUpHandler(event){
     if(event.keyCode === 32){
         if(!isJumping) {
@@ -34,13 +38,15 @@ function keyUpHandler(event){
     }
 } 
 
+//função responsavel por fazer o dinossauro pular
 function jump(){
     isJumping = true;
     let upInterval = setInterval(() =>{
+        //faz o dinossauro parar de subir nos 150px
         if(position >= 150){
             clearInterval(upInterval);
             
-
+            //faz o dinossauro descer até 0px
             let downInterval = setInterval(() => {
                 if(position <= 0){
                     clearInterval(downInterval)
@@ -53,14 +59,14 @@ function jump(){
             
 
         }else{
+            //faz o dinossauro subir até um limite de 150px
             position += 20;
             dino.style.bottom = position + "px";
         }
     }, 20);
 }
 
-document.addEventListener('keyup', keyUpHandler);
-
+//cria os obstaculos do jogo
 function createCactus(){
     const cactus = document.createElement('div');
     let cactusPosition = 1000;
@@ -88,9 +94,11 @@ function createCactus(){
         
     }, speed)
 
+    //cria um novo obstatulo em intervalos de tempos aleatorios
     setTimeout(createCactus, randomTime);
 }
 
+//cria o primeiro cactu
 createCactus();
 
 
